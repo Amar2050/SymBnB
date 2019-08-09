@@ -21,10 +21,22 @@ class AdController extends AbstractController
             'ads' => $ads
         ]);
     }
+    
+        /**
+         * Create a Ad
+         * 
+         * @Route ("/ads/new", name="ads_create")
+         * 
+         * @return Response
+         */
+    
+        public function create(){
+            return $this->render('ad/new.html.twig');
+        }
 
     /**
      * Display one ad only
-     *
+     * 
      * @Route("/ads/{slug}", name="ad_show")
      * 
      * @return Response
