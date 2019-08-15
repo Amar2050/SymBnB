@@ -3,21 +3,18 @@
 {% block title %}
     Créer votre annonce
 {% endblock %}
-
 {% block body %}
+
     <div class="container">
         <h1>Crée une nouvelle annonce</h1>
 
         {{ form_start(form) }}
 
-        <div class="form-group">
-            {{form_label(form.title)}}
-            {{form_widget(form.title, {'attr': {'class': 'form-control', 'placeholder':'titre de l\'annonce'}})}}
-        </div>
-
+        {{ form_widget(form) }}
         
-        {{ form_label(form.title) }}
-        <button class="btn btn-primary">Créer une votre annonce</button>
+        <button class="btn btn-primary">Créer votre annonce</button>
+
         {{ form_end(form)}}
     </div>
+
 {% endblock %}
