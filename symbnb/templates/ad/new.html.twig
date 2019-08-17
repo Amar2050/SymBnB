@@ -1,8 +1,9 @@
 {% extends "base.html.twig" %}
 
-{% block title %}
-    Créer votre annonce
-{% endblock %}
+{% block title %} Créer votre annonce {% endblock %}
+
+{% form_theme form _self %}
+
 {% block body %}
 
     <div class="container">
@@ -16,5 +17,67 @@
 
         {{ form_end(form)}}
     </div>
+
+{% endblock %}
+
+{% block _ad_images_widget %}
+    <p>Ajoutez des images supplémentaires</p>
+
+    {{ form_widget(form)}}
+
+    <div class="form-group">
+        <button type="button" id="add-image" class="btn btn-primary">Ajouter une image</button>
+    </div>
+{% endblock %}
+
+{% block _ad_images_entry_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block _ad_images_entry_widget %}
+    <div class="form-group" id="block_{{id}}">
+        <div class="row">
+            <div class="col-10">
+                <div class="row">
+                    <div class="col">
+                        {{ form_widget(form.url) }}
+                    </div>
+                    <div class="col">
+                        {{ form_widget(form.caption) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <button type="button" data-action="delete" data-target="#block_{{ id }}" class="btn btn-danger">X</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+    $('#add-image').click(function(){
+        //Calculating future created fields
+        const index = $('#ad_images div.form-group ').length;
+        //Taking entrys prototype
+        const template = $('#ad_images').data('prototype').replace(/__name__/g, index );
+
+        // Adding template on the div
+        $('#ad_images').append(template);
+
+        //Delete button 
+        handleDeleteButtons();
+    });
+
+    function handleDeleteButtons() {
+        $('button[data-action="delete"]').click(function(){
+            const target = this.dataset.target;
+            $(target).remove();
+        });
+    }
+
+    handleDeleteButtons();
+</script>
 
 {% endblock %}
