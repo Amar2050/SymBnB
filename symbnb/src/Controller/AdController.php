@@ -27,43 +27,80 @@ class AdController extends AbstractController
         ]);
     }
     
-        /**
-         * Create a Ad
-         * 
-         * @Route ("/ads/new", name="ads_create")
-         * 
-         * @return Response
-         */
-    
-        public function create(Request $request, ObjectManager $manager){
-            $ad = new Ad;
+    /**
+     * Create a Ad
+     * 
+     * @Route ("/ads/new", name="ads_create")
+     * 
+     * @return Response
+     */
 
-            $form = $this->createForm(AdType::class, $ad);
+    public function create(Request $request, ObjectManager $manager){
+        $ad = new Ad;
 
-            $form->handleRequest($request);
-            
+        $form = $this->createForm(AdType::class, $ad);
 
-            if ($form->isSubmitted() && $form->isValid()) {
+        $form->handleRequest($request);
 
-                $manager->persist($ad);
-                $manager->flush();
+        foreach ($ad->getImages() as $image) {
+            $image->setAd($ad);
+            $manager->persist($image);
+        }
+        
 
-                $this->addFlash(
-                    'success' ,
-                    "L'annonce <strong>{$ad->getTitle()}</strong> a bien été enregistrée !"
-                );
-                
-                return $this->redirectToRoute('ad_show', [
-                    'slug' => $ad->getSlug()
-                ]);
+        if ($form->isSubmitted() && $form->isValid()) {
 
-            }
+            $manager->persist($ad);
+            $manager->flush();
 
-            return $this->render('ad/new.html.twig',  [
-                'form' => $form->createView()
-
+            $this->addFlash(
+                'success' ,
+                "L'annonce <strong>{$ad->getTitle()}</strong> a bien été enregistrée !"
+            );
+            return $this->redirectToRoute('ad_show', [
+                'slug' => $ad->getSlug()
             ]);
         }
+        return $this->render('ad/new.html.twig',  [
+            'form' => $form->createView()
+        ]);
+    }
+    /**
+     * Updating an Ad
+     * 
+     * @Route("/ads/{slug}/edit", name="ads_edit")
+     * 
+     * @return Response
+     */
+    public function edit(Ad $ad, Request $request, ObjectManager $manager) {
+        $form = $this->createForm(AdType::class, $ad);
+
+        $form->handleRequest($request);
+        
+        foreach ($ad->getImages() as $image) {
+            $image->setAd($ad);
+            $manager->persist($image);
+        }
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($ad);
+            $manager->flush();
+
+            $this->addFlash(
+                'success' ,
+                "L'annonce <strong>{$ad->getTitle()}</strong> a bien été modifiée !"
+            );
+            return $this->redirectToRoute('ad_show', [
+                'slug' => $ad->getSlug()
+            ]);
+        }
+
+        return $this->render('ad/edit.html.twig' , [
+            'form' => $form->createView(),
+            'ad'   => $ad 
+        ]);
+
+    }
 
     /**
      * Display one ad only
