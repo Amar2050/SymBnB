@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{user.fullName}}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>{{user.fullName}}</h1>
+        <div>
+            <img src="{{user.picture}}" class="avatar" alt="avatar de {{user.fullName}}">
+        </div>
+
+    </div>
+{% endblock %}
