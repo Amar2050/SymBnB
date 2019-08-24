@@ -12,7 +12,7 @@ class PasswordUpdate
     private $newPassword;
     
     /**
-     * @Asset\EqualTo(propertyPath="newPassword", message="Vous n'avez pas correctement 
+     * @Assert\EqualTo(propertyPath="newPassword", message="Vous n'avez pas correctement 
      * confirmé votre nouveau mot de passe")
      */
     private $confirmPassword;
