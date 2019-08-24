@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
+use App\Entity\User;
 use App\Form\AdType;
 use App\Entity\Image;
 use App\Repository\AdRepository;
@@ -47,6 +48,7 @@ class AdController extends AbstractController
             $manager->persist($image);
         }
         
+        $ad->setAuthor($this->getUser());
 
         if ($form->isSubmitted() && $form->isValid()) {
 
