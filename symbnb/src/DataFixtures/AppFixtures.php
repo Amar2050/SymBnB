@@ -7,6 +7,7 @@ use Faker\Factory;
 use App\Entity\Role;
 use App\Entity\User;
 use App\Entity\Image;
+use App\Entity\Booking;
 use Cocur\Slugify\Slugify;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -29,7 +30,7 @@ class AppFixtures extends Fixture
         $adminUser = new User();
         $adminUser->setFirstName('Amar')
                   ->setLastName('Bou')
-                  ->setEmail('amar2050@hotmail.fr')
+                  ->setEmail('amar@symfony.fr')
                   ->setHash($this->encoder->encodePassword($adminUser, 'password'))
                   ->setPicture('https://www.gravatar.com/avatar/00000000000000000000000000000000?d=wavatar&f=y')
                   ->setIntroduction('Moi un User pas comme les autres')
@@ -101,7 +102,30 @@ class AppFixtures extends Fixture
 
                 $manager->persist($image);  
             }       
-    
+            // Creating bookings
+            for ($j=1; $j < mt_rand(5,10); $j++) { 
+                $booking =new Booking();
+
+                $createdAt = $faker->dateTimeBetween('-6 months');
+                $startDate = $faker->dateTimeBetween('-3 months');
+                
+                $duration = mt_rand(3, 10);
+                
+                $endDate = ( clone $startDate)->modify("+$duration days");
+                $amount  = $ad->getPrice() * $duration;
+                
+                $booker  = $users[mt_rand(0, count($users) -1)];
+
+                $booking->setBooker($booker)
+                        ->setAd($ad)
+                        ->setStartDate($startDate)
+                        ->setEndDate($endDate)
+                        ->setCreatedAt($createdAt)
+                        ->setAmount($amount);
+
+                $manager->persist($booking);
+            }
+
             $manager->persist($ad);
         }
 

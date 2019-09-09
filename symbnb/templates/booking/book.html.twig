@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réservation{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Réservation pour la chambre : {{ ad.title }}</h1>
+
+    <p>Réserver la chambre d'hôte de  <strong>{{ ad.author.FullName }}</strong> , on s'en occupe ! </p>
+
+    {{ form_start(form) }}
+    <div class="alert alert-light">
+        <h2>Commencez par nous dire quelles sont vos dates de disponibilité</h2>
+        <div class="row">
+            <div class="col">
+                {{form_row(form.startDate)}}
+            </div>
+            <div class="col">
+                {{form_row(form.endDate)}}
+            </div>
+        </div>
+    </div>
+
+    <h4>Prix du séjour : <span id="amount">...</span> &euro;</h4>
+    <span id="days">0</span> nuit(s) à {{ad.price}} /nuit
+
+    {{form_end(form)}}
+    
+</div>
+{% endblock %}
