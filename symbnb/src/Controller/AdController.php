@@ -121,4 +121,26 @@ class AdController extends AbstractController
         ]);
 
     }
+
+    /**
+     * Deleting ads
+     * 
+     * @Route("/ads/{slug}/delete", name="ads_delete")
+     * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message="Vous ne pouvez pas supprimer cette annonce")
+     * 
+     * @param Ad $ad
+     * @param ObjectManager $manager
+     * @return Response
+     */
+    public function delete(Ad $ad, ObjectManager $manager){
+        $manager->remove($ad);
+        $manager->flush();
+
+        $this->addFlash(
+            'success' ,
+            "L'annonce <strong>{$ad->getTitle()}</strong> as bien été supprimé"
+        );
+
+        return $this->redirectToRoute("ad_index");
+    }
 } 
