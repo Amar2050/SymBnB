@@ -106,22 +106,23 @@ class AppFixtures extends Fixture
             for ($j=1; $j < mt_rand(5,10); $j++) { 
                 $booking =new Booking();
 
-                $createdAt = $faker->dateTimeBetween('-6 months');
-                $startDate = $faker->dateTimeBetween('-3 months');
+                $createdAt  = $faker->dateTimeBetween('-6 months');
+                $startDate  = $faker->dateTimeBetween('-3 months');
+                // Managing endTime
+                $duration   = mt_rand(3, 10);
+                $endDate    = ( clone $startDate)->modify("+$duration days");
+                $amount     = $ad->getPrice() * $duration;
                 
-                $duration = mt_rand(3, 10);
-                
-                $endDate = ( clone $startDate)->modify("+$duration days");
-                $amount  = $ad->getPrice() * $duration;
-                
-                $booker  = $users[mt_rand(0, count($users) -1)];
+                $booker     = $users[mt_rand(0, count($users) -1)];
+                $comment    = $faker->paragraph();
 
                 $booking->setBooker($booker)
                         ->setAd($ad)
                         ->setStartDate($startDate)
                         ->setEndDate($endDate)
                         ->setCreatedAt($createdAt)
-                        ->setAmount($amount);
+                        ->setAmount($amount)
+                        ->setComment($comment);
 
                 $manager->persist($booking);
             }
