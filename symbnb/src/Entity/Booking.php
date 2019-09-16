@@ -34,12 +34,14 @@ class Booking
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Date(message="Format de date invalide ! Merci de le corriger")
+     * @Assert\GreaterThan("today", message="Incohèrence sur les dates veuillez corriger cela !")
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Date(message="Format de date invalide ! Merci de le corriger")
+     * @Assert\GreaterThan(propertyPath="startDate", message="Incohèrence sur les dates veuillez corriger cela !")
      */
     private $endDate;
 
