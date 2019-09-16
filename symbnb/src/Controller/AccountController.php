@@ -179,5 +179,14 @@ class AccountController extends AbstractController
         ]);
 
     }
-
+    /**
+     * Show bookings user
+     *
+     * @Route("/account/bookings", name="account_bookings")
+     * 
+     * @return Response
+     */
+    public function bookings(){
+        return $this->render('account/bookings.html.twig');
+    }
 }
