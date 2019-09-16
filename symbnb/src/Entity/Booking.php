@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
@@ -32,11 +33,13 @@ class Booking
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Date(message="Format de date invalide ! Merci de le corriger")
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Date(message="Format de date invalide ! Merci de le corriger")
      */
     private $endDate;
 
@@ -52,6 +55,7 @@ class Booking
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * 
      */
     private $comment;
 
@@ -71,6 +75,50 @@ class Booking
         if (empty($this->amount)) {
             $this->amount = $this->ad->getPrice() * $this->getDuration();
         }
+    }
+    /**
+     * Undocumented function
+     *
+     * @return boolean
+     */
+    public function isBookableDates(){
+        $notAvailableDays = $this->ad->getNotAvailableDays();
+        // comparing available and not available date
+        $bookingDays      = $this->getDays();
+
+        $formatDay = function($day){
+            return $day->format('Y-m-d');
+        };   
+        // Transform dateTime into string for easier comparison 
+        $days         = array_map($formatDay, $bookingDays);
+        $notAvailable = array_map($formatDay, $notAvailableDays);
+        
+        foreach ($days as $day) {
+            if (array_search($day, $notAvailable) !== false) {
+                return false;
+            }
+        }
+        return true;  
+    }
+    
+    /**
+     * Array of selected day in my booking
+     *
+     * @return array DateTime object of booking day
+     */
+    public function getDays(){
+
+        $resultat = range(
+                $this->startDate->getTimestamp(),
+                $this->endDate->getTimestamp(),
+                24 * 60 * 60
+            );
+
+        $days = array_map(function($dayTimestamp) {
+            return new \DateTime(date('Y-m-d', $dayTimestamp));
+        }, $resultat);
+        
+        return $days;
     }
 
     public function getDuration() {
