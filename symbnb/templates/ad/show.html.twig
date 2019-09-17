@@ -54,6 +54,41 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+
+            <hr>
+            {% if ad.comments | length > 0 %}
+                <h2 class="mb-3">Commentaires</h2>
+
+                <div class="alert alert-info text-center">
+                    <h4 class="alert-heading">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                Note globale
+                            </div>
+                            <div class="col">
+                                {% include 'partials/rating.html.twig' with {'rating': ad.avgRatings} %}
+                                <br>
+                                <small>(Calculée sur {{ ad.comments | length }} avis)</small>
+                            </div>
+                        </div>
+                    </h4>
+                </div>
+
+                {% for comment in ad.comments %}
+                    <div class="bg-light rounded mb-3 p-3">
+                        <strong>{{comment.author.fullName}}</strong> le <strong>{{comment.createdAt | date('d/m/Y') }} à {{comment.createdAt | date('h:m') }} </strong>:
+                        <blockquote>
+                            {{comment.content}}
+                        </blockquote>
+                        <strong>Noté par {{comment.author.fullName}} : </strong>
+                        {% include 'partials/rating.html.twig' with {'rating': comment.rating} %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                    <h2 class="alert alert-info">Aucun commentaire pour le moment !</h2>
+            {% endif %}
+            
+
         </div>
         <div class="col">
             {% set a = ad.author %}

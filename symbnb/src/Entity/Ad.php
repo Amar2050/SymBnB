@@ -139,6 +139,17 @@ class Ad
         return $notAvailableDays;
     }
 
+    public function getAvgRatings(){
+        // calculate rating sum 
+        $sum = array_reduce($this->comments->toArray(), function($total, $comment){
+            return $total + $comment->getRating();
+        }, 0);
+        // divide sum to geting average 
+        if(count($this->comments) > 0) return $sum  / count($this->comments);
+        
+        return 0;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
