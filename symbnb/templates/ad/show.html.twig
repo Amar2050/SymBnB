@@ -76,11 +76,11 @@
 
                 {% for comment in ad.comments %}
                     <div class="bg-light rounded mb-3 p-3">
-                        <strong>{{comment.author.fullName}}</strong> le <strong>{{comment.createdAt | date('d/m/Y') }} à {{comment.createdAt | date('h:m') }} </strong>:
+                        <a href="{{ path('user_show', {'slug': comment.author.slug})}}"><strong>{{comment.author.firstName}}</strong></a> le <strong>{{comment.createdAt | date('d/m/Y') }} à {{comment.createdAt | date('h:m') }} </strong>:
                         <blockquote>
                             {{comment.content}}
                         </blockquote>
-                        <strong>Noté par {{comment.author.fullName}} : </strong>
+                        <strong>Noté : </strong>
                         {% include 'partials/rating.html.twig' with {'rating': comment.rating} %}
                     </div>
                 {% endfor %}

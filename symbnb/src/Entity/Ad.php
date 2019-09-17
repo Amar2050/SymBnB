@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
 use Cocur\Slugify\Slugify;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 // DON'T forget the following use statement!!!
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -138,7 +139,11 @@ class Ad
         }
         return $notAvailableDays;
     }
-
+    /**
+     * Get average AD rate
+     *
+     * @return Float
+     */
     public function getAvgRatings(){
         // calculate rating sum 
         $sum = array_reduce($this->comments->toArray(), function($total, $comment){
@@ -146,8 +151,21 @@ class Ad
         }, 0);
         // divide sum to geting average 
         if(count($this->comments) > 0) return $sum  / count($this->comments);
-        
+
         return 0;
+    }
+
+    /**
+     * Get comment of an author from an Ad
+     *
+     * @param User $author
+     * @return Comment|null
+     */
+    public function getCommentFromAuthor(User $author){
+        foreach ($this->comments as $comment) {
+            if ($comment->getAuthor() === $author) return $comment;      
+        }
+        return null;
     }
 
     public function getId(): ?int

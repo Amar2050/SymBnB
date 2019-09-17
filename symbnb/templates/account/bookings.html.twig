@@ -13,6 +13,16 @@
             <div class="row mt-3 bg-light ">
                 <div class="col-4">
                     <img src="{{ ad.coverImage}}" alt="photo de {{ad.title}}" class="img-fluid rounded">
+                    <strong>Note de l'annonce:</strong><br>  
+                    {% include "partials/rating.html.twig" with {'rating': ad.avgRatings} %}
+                    {% set comment = ad.commentFromAuthor(app.user) %}
+                    {% if comment is not null %}
+                        <br><strong>Ma note: </strong><br>
+                        {% include "partials/rating.html.twig" with {'rating': comment.rating} %}
+                    {% else %}
+                        <br><span>Pas encore noté !</span><a href="{{ path('booking_show', {'id': booking.id}) }}#comment"> Je donne mon avis !</a>
+                    {% endif %}
+                    
                 </div>
                 <div class="col-8">
                     <h4>{{ad.title}}</h4>
@@ -21,7 +31,7 @@
                         Du {{booking.startDate | date('d/m/Y') }} au {{booking.endDate | date('d/m/Y')}}
                         ({{booking.amount}} &euro;)
                     </p>
-                    <a href="{{ path("booking_show", {'id': booking.id})}}" class="btn btn-info">Voir l'annonce</a>
+                    <a href="{{ path("booking_show", {'id': booking.id})}}" class="btn btn-info">Voir la réservation</a>
                 </div>
             </div>
         {% endfor %}
