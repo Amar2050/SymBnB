@@ -20,10 +20,10 @@ security:
             provider: in_database
 
             form_login:
-                login_path: admin_account_login
+                login_path:  admin_account_login
                 check_path:  admin_account_login
             logout:
-                path:   account_logout
+                path:   admin_account_logout
                 target: homepage    
         main:
             anonymous: true
