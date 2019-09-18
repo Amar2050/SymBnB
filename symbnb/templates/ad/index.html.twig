@@ -4,13 +4,12 @@
 
 {% block body %}
     <div class="container">
-        <h1 class="my-3">Des logements extraordinnaires partout !</h1>
+        <h1 class="my-5">Des logements extraordinnaires partout !</h1>
 
         <div class="row">
             {% for ad in ads %}
                 {% include "ad/_ad.html.twig" %}
             {% endfor %}
         </div>
-
     </div>
 {% endblock %}
