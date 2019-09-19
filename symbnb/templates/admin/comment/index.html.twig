@@ -1,0 +1,59 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Liste des commentaires{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <h1 class="my-5">
+        <i class="fas fa-comments"></i>
+        Gestion des commentaires
+    </h1>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th class="text-center">Auteur</th>
+                <th class="text-center">Commentaire</th>
+                <th class="text-center">Note</th>
+                <th class="text-center">Annonce</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+    
+        <tbody>
+            {% for comment in comments %}
+            <tr>
+                <td>{{comment.id}}</td>
+                <td>{{comment.createdAt|date('d/m/Y h:i')}}</td>
+                <td class="text-center">
+                    <img src="{{comment.author.picture}}" alt="avatar de {{comment.author.fullName}}" class="avatar avatar-mini"><br>
+                    {{comment.author.fullName}}
+                </td>
+                <td>
+                    <p>
+                        {{comment.content}}
+                    </p>
+                </td>
+                <td class="text-center">
+                    <div class="badge badge-primary rounded">
+                        {{comment.rating}}
+                    </div>
+                </td>
+                <td class="text-center">
+                    <p>
+                        {{comment.ad.title}}
+                    </p>
+                </td>
+                <td class="text-center">
+                    <a href="{{ path('admin_comment_edit', {'id': comment.id})}}" class="btn btn-primary"><i
+                            class="fas fa-edit"></i></a>
+                    <a href="{{ path('admin_comment_delete', {'id': comment.id})}}" class="btn btn-danger"><i
+                            class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

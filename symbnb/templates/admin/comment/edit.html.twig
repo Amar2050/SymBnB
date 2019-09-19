@@ -1,0 +1,28 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modération du commentaire: {{comment.id}}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="my-5">
+            <i class="fas fa-pen"></i>
+            Modération du commentaire {{comment.id}}
+        </h1>
+        <div class="alert alert-info">
+            <span><strong>Annonce liée</strong>: <em>{{comment.ad.title}}</em></span><br>
+            <span><strong>Auteur</strong>: {{comment.author.FullName}}</span><br>
+            <span><strong>Date de publication</strong>: Le {{comment.createdAt|date('d/m/Y h:i')}}</span><br>
+            <span><strong>Noté</strong>: {{comment.rating}}</span><br>
+            <span><strong>Commentaire</strong>: {{comment.content}}</span><br>
+        </div>
+        <div class="bg bg-light rounded">
+            {{form_start(form)}}
+            {{form_widget(form)}}
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-check"></i>
+                Enregister les modifications
+            </button>
+            {{form_end(form)}}
+        </div>
+    </div>
+{% endblock %}
