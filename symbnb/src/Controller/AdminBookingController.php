@@ -14,6 +14,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminBookingController extends AbstractController
 {
     /**
+     * Index of all bookings
+     * 
      * @Route("/admin/bookings", name="admin_bookings_index")
      */
     public function index(BookingRepository $repo)
@@ -55,6 +57,7 @@ class AdminBookingController extends AbstractController
             'booking'   => $booking
         ]);
     }
+
     /**
      * Delete booking
      *
