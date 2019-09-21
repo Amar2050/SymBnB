@@ -34,7 +34,7 @@ class Booking
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Date(message="Format de date invalide ! Merci de le corriger")
-     * @Assert\GreaterThan("today", message="Incohèrence sur les dates veuillez corriger cela !")
+     * @Assert\GreaterThan("today", message="Incohèrence sur les dates veuillez corriger cela !", groups={"front"})
      */
     private $startDate;
 
@@ -65,6 +65,7 @@ class Booking
      * Callback foreach booking
      *
      * @ORM\PrePersist
+     * @ORM\PreUpdate
      * 
      * @return void
      */
@@ -79,7 +80,7 @@ class Booking
         }
     }
     /**
-     * Undocumented function
+     * Available date
      *
      * @return boolean
      */

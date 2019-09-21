@@ -1,20 +1,49 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
-{% block title %}Hello AdminBookingController!{% endblock %}
+{% block title %}Réservations{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Amar2050/Documents/GitHub/SymBnB/symbnb/src/Controller/AdminBookingController.php'|file_link(0) }}">src/Controller/AdminBookingController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Amar2050/Documents/GitHub/SymBnB/symbnb/templates/admin_booking/index.html.twig'|file_link(0) }}">templates/admin_booking/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="container-fluid">
+        <h1 class="my-5">
+            <i class="fas fa-folder"></i>
+            Gestion des réservations
+        </h1>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Date</th>
+                    <th class="text-center">Hôte</th>
+                    <th>Annonce</th>
+                    <th class="text-center">Durée</th>
+                    <th>Montant</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <td>{{booking.id}}</td>
+                        <td>{{booking.createdAt|date('d/m/Y')}}</td>
+                        <td class="text-center">
+                            <img src="{{booking.booker.picture}}"class="avatar avatar-mini"
+                             alt="avatar de{{booking.booker.fullName}} "><br>
+                            {{booking.booker.fullName}}
+                        </td>
+                        <td>{{booking.ad.title}}</td>
+                        <td class="text-center">{{booking.duration}}</td>
+                        <td>{{booking.amount| number_format(2, ',', ' ')}} &euro;</td>
+                        <td class="text-center">
+                            <a href="{{ path("admin_booking_edit", {id: booking.id})}}"class="btn btn-primary m-1">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                            <a href="{{ path("admin_booking_delete", {id: booking.id})}}"class="btn btn-danger m-1">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
