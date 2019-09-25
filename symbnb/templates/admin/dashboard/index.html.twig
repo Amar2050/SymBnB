@@ -1,0 +1,129 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <h1 class="my-5">
+        <i class="fas fa-chart-line"></i>
+        Tableau de bord
+    </h1>
+    <div class="row">
+        <div class="col">
+            <div class="card bg-primary text-white mb-3 text-center">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <i class="fas fa-users fa-3x"></i>
+                        </div>
+                        <div class="col-8">
+                            <h4 class="card-title">{{ stats.users }}<br>Utilisateurs</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-success mb-3 text-center">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <i class="fas fa-hotel fa-3x"></i>
+                        </div>
+                        <div class="col-8">
+                            <h4 class="card-title">{{stats.ads}}<br>Annonces</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-warning mb-3 text-center">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <i class="fas fa-folder fa-3x"></i>
+                        </div>
+                        <div class="col-8">
+                            <h4 class="card-title">{{stats.bookings}}<br>Réservations</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-info mb-3 text-center">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <i class="fas fa-comments fa-3x"></i>
+                        </div>
+                        <div class="col-8">
+                            <h4 class="card-title">{{stats.comments}}<br>Avis</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-success">
+                <h2 class="alert-heading my-3">
+                    Les Meilleurs Annonces
+                    <i class="fas fa-arrow-up"></i>
+                </h2>
+                <table class="table-hover">
+                    <thead>
+                        {% for ad in bestAds %}
+                        <tr>
+                            <td>{{ad.title}}</td>
+                            <td class="text-center">
+                                <img src="{{ad.picture}}" alt="avatar de {{ad.firstname}} {{ad.lastname}}" class="avatar avatar-mini">
+                                <br>
+                                {{ad.firstname}} {{ad.lastname}}
+                            </td>
+                            <td class="text-center">
+                                <span class="badge badge-dark">
+                                    {{ad.note | round(1, 'floor')}}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="col">
+            <div class="alert alert-danger">
+                <h2 class="alert-heading my-3">
+                    Les Pires Annonces
+                    <i class="fas fa-arrow-down"></i>
+                </h2>
+                <table class="table-hover">
+                    <thead>
+                        {% for ad in worstAds %}
+                        <tr>
+                            <td>{{ad.title}}</td>
+                            <td class="text-center">
+                                <img src="{{ad.picture}}" alt="avatar de {{ad.firstname}} {{ad.lastname}}"
+                                    class="avatar avatar-mini">
+                                <br>
+                                {{ad.firstname}} {{ad.lastname}}
+                            </td>
+                            <td class="text-center">
+                                <span class="badge badge-dark">
+                                    {{ad.note | round(1, 'floor')}}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </thead>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
