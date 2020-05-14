@@ -101,6 +101,14 @@ class User implements UserInterface
      */
     private $comments;
 
+    public function __construct()
+    {
+        $this->ads = new ArrayCollection();
+        $this->userRoles = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+    }
+    
     public function getFullName() {
         return "{$this->firstname} {$this->lastname}";
     }
@@ -120,13 +128,6 @@ class User implements UserInterface
         }
     }
     
-    public function __construct()
-    {
-        $this->ads = new ArrayCollection();
-        $this->userRoles = new ArrayCollection();
-        $this->bookings = new ArrayCollection();
-        $this->comments = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
